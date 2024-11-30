@@ -8,10 +8,10 @@ const Header = () => {
     const pathName = usePathname()
 
     return (
-        <div className='flex p-4'>
-            <div className=''>focusflare</div>
+        <div>
+            <div className='fixed left-0 p-4'>Focus Flare</div>
             <div className='fixed w-screen flex justify-center'>
-                <div className='flex justify-between w-96'>
+                <div className='flex justify-between w-96 p-4'>
                     {
                         menuItems.map(item => {
                             let className = ''
