@@ -2,25 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { Play, Pause, RotateCcw, SkipForward, Timer } from 'lucide-react';
 
-const page = () => {
-    let WORK_DURATION = Number(localStorage.getItem('WORK_DURATION')) * 60
-    let SHORT_BREAK_DURATION = Number(localStorage.getItem('SHORT_BREAK_DURATION')) * 60
-    let LONG_BREAK_DURATION = Number(localStorage.getItem('LONG_BREAK_DURATION')) * 60
-    // SETTING DURATIONS
-    useEffect(() => {
-
-
-        if (WORK_DURATION <= 0 || Number.isNaN(WORK_DURATION)) {
-            WORK_DURATION = 25 * 60
-        }
-        if (SHORT_BREAK_DURATION <= 0 || Number.isNaN(SHORT_BREAK_DURATION)) {
-            SHORT_BREAK_DURATION = 5 * 60
-        }
-        if (LONG_BREAK_DURATION <= 0 || Number.isNaN(LONG_BREAK_DURATION)) {
-            LONG_BREAK_DURATION = 15 * 60
-        }
-    }, [])
-
+export default function Page() {
+    const [WORK_DURATION, setWorkDuration] = useState<number>(25 * 60);
+    const [SHORT_BREAK_DURATION, setShortBreakDuration] = useState<number>(5 * 60);
+    const [LONG_BREAK_DURATION, setLongBreakDuration] = useState<number>(15 * 60);
     const [timeRemaining, setTimeRemaining] = useState(WORK_DURATION);
     const [isRunning, setIsRunning] = useState(false);
     const [mode, setMode] = useState('work1'); // 'work1', 'short-break', 'work2', 'long-break'
@@ -29,13 +14,23 @@ const page = () => {
     const [autostart, setAutostart] = useState(false);
 
 
+    useEffect(() => {
+        setWorkDuration(localStorage.getItem('WORK_DURATION') ? Number(localStorage.getItem('WORK_DURATION')) * 60 : 25 * 60);
+        setShortBreakDuration(localStorage.getItem('SHORT_BREAK_DURATION') ? Number(localStorage.getItem('SHORT_BREAK_DURATION')) * 60 : 5 * 60);
+        setLongBreakDuration(localStorage.getItem('LONG_BREAK_DURATION') ? Number(localStorage.getItem('LONG_BREAK_DURATION')) * 60 : 15 * 60);
+        setAutostart(false)
+    }, []);
+
+
     // Timer logic
     useEffect(() => {
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         let interval: any = null;
 
         if (isRunning && timeRemaining > 0) {
             interval = setInterval(() => {
-                setTimeRemaining(prev => prev - 1);
+                // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+                setTimeRemaining((prev: any) => prev - 1);
             }, 1000);
         } else if (timeRemaining === 0) {
             handleTimerComplete();
@@ -71,6 +66,7 @@ const page = () => {
         }
     };
 
+    console.log(sessionNumber)
     const handleTimerComplete = () => {
         setIsRunning(false);
         advanceSession();
@@ -126,7 +122,8 @@ const page = () => {
         }
     };
 
-    const { color, icon, text } = getModeDetails();
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    const { text }: any = getModeDetails();
 
     const progress = (mode == "work1" || mode == 'work2') ?
         ((WORK_DURATION - timeRemaining) / WORK_DURATION) * 100 : mode == "short-break" ?
@@ -211,4 +208,4 @@ const page = () => {
     )
 }
 
-export default page
+// export default page
