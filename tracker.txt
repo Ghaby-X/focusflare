@@ -1,5 +1,5 @@
 Integrate test
-continuous integration
+continuous integration - done
 continuous deployment
 setup nginx
 add settings
