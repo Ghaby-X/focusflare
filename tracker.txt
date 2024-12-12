@@ -1,0 +1,7 @@
+Integrate test
+continuous integration - done
+continuous deployment
+setup nginx
+add settings
+add alarm/sound
+refactor desing

@@ -1,0 +1,24 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup nodejs
+        uses: actions/setup-node@v4
+    
+      - name: Install packages
+        run: npm ci
+
+      - name: Run code tests
+        run: npm run test --if-present
+
+      - name: Run build
+        run: npm run build
