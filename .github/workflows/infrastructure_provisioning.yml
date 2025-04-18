@@ -1,0 +1,38 @@
+name: Infrastructure provisioning
+
+on:
+    push:
+        branches: main
+        paths: ['/terraform']
+    workflow_dispatch:
+
+env:
+    WORKING_DIRECTORY: '/terraform'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+
+            -   name: Checkout repo
+                uses: actions/checkout@v3
+
+            -   name: Initialize terraform
+                uses: hashicorp/setup-terraform@v3
+                with:
+                    terraform_wrapper: false
+            
+            -   name: Terraform init
+                working-directory: ${{ env.WORKING_DIRECTORY }}
+                run: terraform init
+            
+            -   name: Terraform apply
+                working-directory: ${{ env.WORKING_DIRECTORY }}
+                run: terraform apply --auto-approve
+            
+            -   name: Set environment variable
+                working-directory: ${{ env.WORKING_DIRECTORY }}
+                run: |
+                    public_ip=$(terraform output ec2_public_ip_address)
+                    echo "ec2_public_ip_address=$public_ip" >> $GITHUB_ENV
+
