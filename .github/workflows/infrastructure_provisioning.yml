@@ -7,7 +7,7 @@ on:
     workflow_dispatch:
 
 env:
-    WORKING_DIRECTORY: '/terraform'
+    WORKING_DIRECTORY: 'terraform'
 
 jobs:
     build:
