@@ -3,7 +3,7 @@ name: Infrastructure provisioning
 on:
     push:
         branches: main
-        paths: ['/terraform']
+        paths: ['terraform']
     workflow_dispatch:
 
 env:
